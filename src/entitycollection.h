@@ -7,6 +7,7 @@ typedef struct CollectionNode
 {
     Entity *entity;
     struct CollectionNode *next;
+    struct CollectionNode *prev;
 } CollectionNode;
 
 typedef struct
@@ -18,6 +19,10 @@ void InitEntityCollection(EntityCollection *collection);
 void AppendEntityCollection(EntityCollection *collection, Entity *entity);
 void RemoveNthEntityCollection(EntityCollection *collection, int n);
 Entity *GetNthEntityCollection(EntityCollection *collection, int n);
+
+CollectionNode *FindCollectionNodeFromEntity(EntityCollection *collection, Entity *entity);
+
+void FreeEntityFromEntityCollection(EntityCollection *collection, CollectionNode *node);
 void FreeEntityCollection(EntityCollection *collection);
 
 #endif

@@ -16,22 +16,14 @@ int main(int argc, char **argv)
     Engine engine;
     InitEngine(&engine);
 
-    AudioEngine audio_engine;
-    InitAudioEngine(&audio_engine);
-
     while (!WindowShouldClose())
     {
         HandleInputEngine(&engine);
 
         UpdateEngine(&engine);
-        UpdateAudioEngine(&audio_engine);
 
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
         DrawEngine(&engine);
-        EndDrawing();
     }
     FreeEngine(&engine);
-    FreeAudioEngine(&audio_engine);
     return 0;
 }

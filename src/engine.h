@@ -2,15 +2,28 @@
 #define Engine_H
 
 #include "entitycollection.h"
+#include "audio_engine.h"
 
-#define ENEMIES_AMMOUNT 5
+#define DEFAULT_BACKGROUND_COLOR RAYWHITE
+
+#define ENEMIES_AMOUNT 5
+
+#define MAX_ENEMY_TEXTURES 5
+
+typedef enum
+{
+    PLAYER_TEXTURE,
+    RED_ENEMY_TEXTURE,
+    BLUE_ENEMY_TEXTURE,
+    EXPLOSION_TEXTURE,
+} ENTITY_TEXTURES;
+
 typedef struct
 {
+    AudioEngine audio_engine;
     EntityCollection entities;
     Entity *player;
-    Texture2D playerTexture;
-    Texture2D bulletTexture;
-    Texture2D enemyTexture;
+    Texture2D entityTextures[MAX_ENEMY_TEXTURES];
 
 } Engine;
 

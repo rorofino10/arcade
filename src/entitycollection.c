@@ -7,13 +7,39 @@ void InitEntityCollection(EntityCollection *collection)
     collection->head = NULL;
 }
 
+CollectionNode *CreateCollectionNode(Entity *entity)
+{
+    CollectionNode *node = malloc(sizeof(CollectionNode));
+    node->next = NULL;
+    node->prev = NULL;
+    node->entity = entity;
+
+    return node;
+}
+
 void AppendEntityCollection(EntityCollection *collection, Entity *entity)
 {
-    CollectionNode *newNode = malloc(sizeof(CollectionNode));
+    CollectionNode *newNode = CreateCollectionNode(entity);
 
-    newNode->entity = entity;
     newNode->next = collection->head;
+    if (collection->head != NULL)
+        collection->head->prev = newNode;
     collection->head = newNode;
+}
+
+void FreeEntityFromEntityCollection(EntityCollection *collection, CollectionNode *node)
+{
+    if (collection->head == NULL || node == NULL)
+        return;
+    if (collection->head == node)
+        collection->head = node->next;
+    if (node->prev)
+        node->prev->next = node->next;
+    if (node->next)
+        node->next->prev = node->prev;
+
+    free(node->entity);
+    free(node);
 }
 
 void FreeEntityCollection(EntityCollection *collection)
@@ -24,6 +50,7 @@ void FreeEntityCollection(EntityCollection *collection)
     {
         CollectionNode *temp = curr;
         curr = curr->next;
+        free(temp->entity);
         free(temp);
     }
 
