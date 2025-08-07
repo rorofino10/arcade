@@ -3,6 +3,7 @@
 
 #include "entitycollection.h"
 #include "audio_engine.h"
+#include "state.h"
 
 #define DEFAULT_BACKGROUND_COLOR RAYWHITE
 
@@ -18,12 +19,13 @@ typedef enum
     EXPLOSION_TEXTURE,
 } ENTITY_TEXTURES;
 
-typedef struct
+typedef struct Engine
 {
     AudioEngine audio_engine;
     EntityCollection entities;
     Entity *player;
     Texture2D entityTextures[MAX_ENEMY_TEXTURES];
+    GameState game_state;
 
 } Engine;
 

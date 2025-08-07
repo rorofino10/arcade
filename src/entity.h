@@ -61,7 +61,7 @@ typedef struct
     } entitySpecificAttributes;
 } EntityAttributes;
 
-typedef struct
+typedef struct Entity
 {
     Vector2 position;
     Vector2 velocity;

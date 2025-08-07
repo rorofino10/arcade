@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include "raylib.h"
 #include "entity.h"
-#include "engine.h"
-#include "audio_engine.h"
+
+#include "engine/engine.h"
+
 int main(int argc, char **argv)
 {
     // SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_WINDOW_UNDECORATED);
@@ -23,6 +24,8 @@ int main(int argc, char **argv)
         UpdateEngine(&engine);
 
         DrawEngine(&engine);
+
+        DrawText(TextFormat("%d", GetFPS()), 10, 10, 20, DARKGRAY);
     }
     FreeEngine(&engine);
     return 0;
