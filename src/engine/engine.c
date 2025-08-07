@@ -6,12 +6,13 @@
 #include "time.h"
 
 #include "states/playing.h"
+#include "states/title_screen.h"
 
 const int POWER_UP_AMOUNT = 1;
 
 void InitEngine(Engine *engine)
 {
-    engine->game_state = STATE_PLAYING;
+    engine->game_state = STATE_TITLE_SCREEN;
 
     engine->player = DefaultPlayer();
     InitEntityCollection(&engine->entities);
@@ -66,7 +67,9 @@ void HandleInputEngine(Engine *engine)
     case STATE_PLAYING:
         HandleInputPlaying(engine);
         break;
-
+    case STATE_TITLE_SCREEN:
+        HandleInputTitleScreen(engine);
+        break;
     default:
         break;
     }
@@ -79,7 +82,9 @@ void UpdateEngine(Engine *engine)
     case STATE_PLAYING:
         UpdatePlaying(engine);
         break;
-
+    case STATE_TITLE_SCREEN:
+        UpdateTitleScreen(engine);
+        break;
     default:
         break;
     }
@@ -98,7 +103,9 @@ void DrawEngine(Engine *engine)
     case STATE_PLAYING:
         DrawPlaying(engine);
         break;
-
+    case STATE_TITLE_SCREEN:
+        DrawTitleScreen(engine);
+        break;
     default:
         break;
     }

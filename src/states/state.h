@@ -3,7 +3,7 @@
 
 typedef enum
 {
-    STATE_MENU,
+    STATE_TITLE_SCREEN,
     STATE_PLAYING,
     STATE_LOST,
     STATE_PAUSED

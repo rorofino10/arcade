@@ -3,7 +3,7 @@
 
 #include "entitycollection.h"
 #include "audio_engine.h"
-#include "state.h"
+#include "states/state.h"
 
 #define DEFAULT_BACKGROUND_COLOR RAYWHITE
 
