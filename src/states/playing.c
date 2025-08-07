@@ -1,6 +1,15 @@
 #include "playing.h"
 #include "raymath.h"
 #include "shared/utils.h"
+#include "engine/collision_system.h"
+
+void KillEntity(Engine *engine, Entity *entity)
+{
+    PlaySoundAudioEngine(&engine->audio_engine, EXPLOSION_SOUND);
+    Entity *explosion = SpawnExplosionFromEntity(entity);
+    AppendEntityCollection(&engine->entities, explosion);
+    entity->alive = false;
+}
 
 void ShootBullet(Engine *engine, Entity *entity, Vector2 direction)
 {
@@ -43,63 +52,18 @@ bool isOffScreen(Entity *entity)
     return entity->position.x < 0 || entity->position.y < 0 || entity->position.x > GetScreenWidth() || entity->position.y > GetScreenHeight();
 }
 
-bool CheckCollisionBetweenEntities(Entity *a, Entity *b)
-{
-    return CheckCollisionRecs(GetEntityRectangle(a), GetEntityRectangle(b));
-}
-
-CollectionNode *checkCollision(Engine *engine, CollectionNode *entityNode)
-{
-    Entity *a = entityNode->entity;
-    for (CollectionNode *curr = engine->entities.head; curr != NULL; curr = curr->next)
-    {
-        Entity *b = curr->entity;
-        if (a == b || b->type == PLAYER_CONTROLLED)
-            continue;
-        bool areColliding = CheckCollisionBetweenEntities(a, b);
-        if (areColliding)
-            return curr;
-    }
-    return NULL;
-}
-
-void KillEnemy(Engine *engine, Entity *enemy)
-{
-    PlaySoundAudioEngine(&engine->audio_engine, EXPLOSION_SOUND);
-    Entity *explosion = SpawnExplosionFromEntity(enemy);
-    AppendEntityCollection(&engine->entities, explosion);
-    enemy->alive = false;
-}
-
 void UpdatePlaying(Engine *engine)
 {
-    CollectionNode *curr = engine->entities.head;
-    // for (CollectionNode *curr = engine->entities.head; curr != NULL; curr = curr->next)
-    while (curr != NULL)
+    for (CollectionNode *curr = engine->entities.head; curr != NULL; curr = curr->next)
     {
         Entity *currEntity = curr->entity;
-        if (!currEntity->alive)
-        {
 
-            CollectionNode *toDelete = curr;
-            curr = curr->next;
-            FreeEntityFromEntityCollection(&engine->entities, toDelete);
-            continue;
-        }
         currEntity->position = Vector2Add(currEntity->position, Vector2Scale(currEntity->velocity, GetFrameTime()));
         switch (currEntity->type)
         {
         case BULLET:
             if (isOffScreen(currEntity))
-            {
                 currEntity->alive = false;
-            }
-            CollectionNode *collidedNode = checkCollision(engine, curr);
-            if (collidedNode != NULL)
-            {
-                currEntity->alive = false;
-                KillEnemy(engine, collidedNode->entity);
-            }
             break;
         case RED_ENEMY:
             Vector2 direction = Vector2Normalize(Vector2Subtract(engine->player->position, currEntity->position));
@@ -111,12 +75,6 @@ void UpdatePlaying(Engine *engine)
                 currEntity->alive = false;
             break;
         case POWER_UP:
-            if (CheckCollisionBetweenEntities(engine->player, currEntity))
-            {
-                engine->player->attributes.speed *= 2.0f;
-                engine->player->attributes.entitySpecificAttributes.player.powerUpLifetime = POWER_UP_LIFETIME;
-                currEntity->alive = false;
-            }
             break;
         case PLAYER_CONTROLLED:
             float *powerUpLifetime = &currEntity->attributes.entitySpecificAttributes.player.powerUpLifetime;
@@ -133,8 +91,9 @@ void UpdatePlaying(Engine *engine)
         default:
             break;
         }
-        curr = curr->next;
     }
+    UpdateCollisions(engine);
+    FreeDeadEntitiesFromCollection(&engine->entities);
 }
 
 void DrawPlaying(Engine *engine)

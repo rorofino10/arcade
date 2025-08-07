@@ -22,6 +22,7 @@ Entity *GetNthEntityCollection(EntityCollection *collection, int n);
 
 CollectionNode *FindCollectionNodeFromEntity(EntityCollection *collection, Entity *entity);
 
+void FreeDeadEntitiesFromCollection(EntityCollection *collection);
 void FreeEntityFromEntityCollection(EntityCollection *collection, CollectionNode *node);
 void FreeEntityCollection(EntityCollection *collection);
 

@@ -6,5 +6,5 @@
 void HandleInputPlaying(Engine *engine);
 void UpdatePlaying(Engine *engine);
 void DrawPlaying(Engine *engine);
-
+void KillEntity(Engine *engine, Entity *entity);
 #endif

@@ -47,6 +47,7 @@ Entity *DefaultBulletFromEntity(Entity *entity, Vector2 direction)
     bullet->attributes.size = (Vector2){DEFAULT_BULLET_SIZE, DEFAULT_BULLET_SIZE};
     bullet->attributes.speed = DEFAULT_BULLET_SPEED;
     bullet->alive = true;
+    bullet->attributes.entitySpecificAttributes.bullet.shotFrom = entity;
 }
 
 Rectangle GetEntityRectangle(Entity *entity)

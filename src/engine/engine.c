@@ -9,6 +9,8 @@
 #include "states/title_screen.h"
 #include "states/paused_screen.h"
 
+#include "collision_system.h"
+
 const int POWER_UP_AMOUNT = 1;
 
 void InitEngine(Engine *engine)
@@ -59,6 +61,7 @@ void InitEngine(Engine *engine)
     }
 
     InitAudioEngine(&engine->audio_engine);
+    InitCollisionSystem();
 }
 
 void HandleInputEngine(Engine *engine)

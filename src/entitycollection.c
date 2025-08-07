@@ -27,6 +27,25 @@ void AppendEntityCollection(EntityCollection *collection, Entity *entity)
     collection->head = newNode;
 }
 
+void FreeDeadEntitiesFromCollection(EntityCollection *collection)
+{
+    CollectionNode *curr = collection->head;
+
+    while (curr != NULL)
+    {
+        Entity *currEntity = curr->entity;
+        if (!currEntity->alive)
+        {
+
+            CollectionNode *toDelete = curr;
+            curr = curr->next;
+            FreeEntityFromEntityCollection(collection, toDelete);
+            continue;
+        }
+        curr = curr->next;
+    }
+}
+
 void FreeEntityFromEntityCollection(EntityCollection *collection, CollectionNode *node)
 {
     if (collection->head == NULL || node == NULL)

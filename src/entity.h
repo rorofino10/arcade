@@ -37,6 +37,9 @@ typedef enum
     PLAYER_CONTROLLED,
     EXPLOSION,
     POWER_UP,
+
+    // To see how many entities
+    ENTITY_TYPE_COUNT
 } EntityType;
 
 typedef struct
@@ -51,6 +54,11 @@ typedef struct
 
 typedef struct
 {
+    struct Entity *shotFrom;
+} BulletAttributes;
+
+typedef struct
+{
     float speed;
     Vector2 size;
     Color color;
@@ -58,6 +66,8 @@ typedef struct
     {
         ExplosionAttributes explosion;
         PlayerAttributes player;
+        BulletAttributes bullet;
+
     } entitySpecificAttributes;
 } EntityAttributes;
 
