@@ -33,6 +33,9 @@ void HandleInputPlaying(Engine *engine)
         ShootBullet(engine, engine->player, (Vector2){-1, 0});
     if (IsKeyPressed(KEY_S))
         ShootBullet(engine, engine->player, (Vector2){0, 1});
+
+    if (IsKeyPressed(KEY_P))
+        engine->game_state = STATE_PAUSED;
 }
 
 bool isOffScreen(Entity *entity)

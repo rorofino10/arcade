@@ -7,6 +7,7 @@
 
 #include "states/playing.h"
 #include "states/title_screen.h"
+#include "states/paused_screen.h"
 
 const int POWER_UP_AMOUNT = 1;
 
@@ -70,6 +71,9 @@ void HandleInputEngine(Engine *engine)
     case STATE_TITLE_SCREEN:
         HandleInputTitleScreen(engine);
         break;
+    case STATE_PAUSED:
+        HandleInputPausedScreen(engine);
+        break;
     default:
         break;
     }
@@ -84,6 +88,9 @@ void UpdateEngine(Engine *engine)
         break;
     case STATE_TITLE_SCREEN:
         UpdateTitleScreen(engine);
+        break;
+    case STATE_PAUSED:
+        UpdatePausedScreen(engine);
         break;
     default:
         break;
@@ -105,6 +112,9 @@ void DrawEngine(Engine *engine)
         break;
     case STATE_TITLE_SCREEN:
         DrawTitleScreen(engine);
+        break;
+    case STATE_PAUSED:
+        DrawPausedScreen(engine);
         break;
     default:
         break;

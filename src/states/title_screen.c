@@ -26,6 +26,7 @@ void DrawTitleScreen(Engine *engine)
     int screenWidth = GetScreenWidth();
     int screenHeight = GetScreenHeight();
     DrawRectangle(0, 0, screenWidth, screenHeight, BLACK);
+
     Vector2 screenCenter = (Vector2){screenWidth / 2, screenHeight / 2};
 
     int titleWidth = MeasureText(title, titleFontSize);
