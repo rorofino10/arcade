@@ -16,7 +16,7 @@ void handleBulletEntity(Engine *engine, Entity *bullet, Entity *entity)
 
 void ApplyPowerup(Engine *engine, Entity *player)
 {
-    // PlaySoundAudioEngine(&engine->audio_engine, SOUND_EFFECT_POWERUP);
+    PlaySoundAudioEngine(&engine->audio_engine, SOUND_EFFECT_POWERUP);
     player->attributes.speed *= 2.0f;
     player->attributes.entitySpecificAttributes.player.powerUpLifetime = POWER_UP_LIFETIME;
 }

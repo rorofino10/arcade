@@ -5,7 +5,7 @@
 
 void KillEntity(Engine *engine, Entity *entity)
 {
-    PlaySoundAudioEngine(&engine->audio_engine, EXPLOSION_SOUND);
+    PlaySoundAudioEngine(&engine->audio_engine, SOUND_EFFECT_EXPLOSION);
     Entity *explosion = SpawnExplosionFromEntity(entity);
     AppendEntityCollection(&engine->entities, explosion);
     entity->alive = false;
@@ -15,7 +15,7 @@ void ShootBullet(Engine *engine, Entity *entity, Vector2 direction)
 {
     Entity *bullet = DefaultBulletFromEntity(entity, direction);
     AppendEntityCollection(&engine->entities, bullet);
-    PlaySoundAudioEngine(&engine->audio_engine, BULLET_SOUND);
+    PlaySoundAudioEngine(&engine->audio_engine, SOUND_EFFECT_BULLET);
 }
 
 void HandleInputPlaying(Engine *engine)
