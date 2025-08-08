@@ -23,6 +23,7 @@ void SpawnBlueEnemy(Engine *engine, Vector2 position)
     enemy->position = position;
     AppendEntityCollection(&engine->entities, enemy);
 }
+
 void handleBlueEnemyDeath(Engine *engine, Entity *entity)
 {
     const float fullCircle = 360;
@@ -33,6 +34,10 @@ void handleBlueEnemyDeath(Engine *engine, Entity *entity)
         Vector2 dir = (Vector2){cosf(rad), sinf(rad)};
         ShootBullet(engine, entity, dir);
     }
+}
+void handlePlayerDeath(Engine *engine, Entity *entity)
+{
+    LoseGame(engine);
 }
 
 void handleEntityDeath(Engine *engine, Entity *entity)
@@ -76,4 +81,5 @@ void InitGameplaySystem()
     }
 
     deathHandlers[ENTITY_BLUENEMY] = handleBlueEnemyDeath;
+    deathHandlers[ENTITY_PLAYER] = handlePlayerDeath;
 }

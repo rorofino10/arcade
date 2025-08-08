@@ -27,6 +27,15 @@ void UpdateAudioEngine(AudioEngine *audio_engine)
     UpdateMusicStream(audio_engine->background_music);
 }
 
+void PauseMusicAudioEngine(AudioEngine *audio_engine)
+{
+    PauseMusicStream(audio_engine->background_music);
+}
+void UnpauseMusicAudioEngine(AudioEngine *audio_engine)
+{
+    ResumeMusicStream(audio_engine->background_music);
+}
+
 void FreeAudioEngine(AudioEngine *audio_engine)
 {
     UnloadMusicStream(audio_engine->background_music);

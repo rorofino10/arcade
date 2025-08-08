@@ -8,6 +8,7 @@
 #include "states/playing.h"
 #include "states/title_screen.h"
 #include "states/paused_screen.h"
+#include "states/lost_screen.h"
 
 #include "collision_system.h"
 #include "systems/gameplay.h"
@@ -87,6 +88,9 @@ void HandleInputEngine(Engine *engine)
     case STATE_PAUSED:
         HandleInputPausedScreen(engine);
         break;
+    case STATE_LOST:
+        HandleInputLostScreen(engine);
+        break;
     default:
         break;
     }
@@ -104,6 +108,9 @@ void UpdateEngine(Engine *engine)
         break;
     case STATE_PAUSED:
         UpdatePausedScreen(engine);
+        break;
+    case STATE_LOST:
+        UpdateLostScreen(engine);
         break;
     default:
         break;
@@ -128,6 +135,9 @@ void DrawEngine(Engine *engine)
         break;
     case STATE_PAUSED:
         DrawPausedScreen(engine);
+        break;
+    case STATE_LOST:
+        DrawLostScreen(engine);
         break;
     default:
         break;

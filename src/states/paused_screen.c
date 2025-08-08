@@ -17,7 +17,7 @@ void HandleInputPausedScreen(Engine *engine)
 {
     if (IsKeyPressed(KEY_P))
     {
-        engine->game_state = STATE_PLAYING;
+        UnpauseGame(engine);
     }
 }
 void UpdatePausedScreen(Engine *engine)

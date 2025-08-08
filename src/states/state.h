@@ -10,7 +10,8 @@ typedef enum
 } GameState;
 
 struct Engine;
-
-void HandleInputState(struct Engine *engine);
+void LoseGame(struct Engine *engine);
+void PauseGame(struct Engine *engine);
+void UnpauseGame(struct Engine *engine);
 
 #endif

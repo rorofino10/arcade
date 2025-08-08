@@ -30,6 +30,8 @@ typedef struct audio_engine
 void InitAudioEngine(AudioEngine *audio_engine);
 
 void UpdateAudioEngine(AudioEngine *audio_engine);
+void PauseMusicAudioEngine(AudioEngine *audio_engine);
+void UnpauseMusicAudioEngine(AudioEngine *audio_engine);
 
 void PlaySoundAudioEngine(AudioEngine *audio_engine, SOUND_EFFECTS sound);
 
