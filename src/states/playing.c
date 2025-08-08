@@ -97,6 +97,8 @@ void UpdatePlaying(Engine *engine)
         }
     }
     UpdateCollisions(engine);
+    UpdateWaveSystem(engine);
+
     FreeDeadEntitiesFromCollection(&engine->entities);
 }
 
@@ -114,6 +116,16 @@ void DrawPlaying(Engine *engine)
     Vector2 textPosition = FromCenteredReturnTopLeftPositionV(screenCenter, (Vector2){waveTextWidth, waveTextFontSize});
 
     DrawText(waveText, textPosition.x, textPosition.y, waveTextFontSize, GRAY);
+
+    const char *remainingTimeText = TextFormat("Remaining time %02.02f s", engine->waveSystem.waves[engine->waveSystem.currentWave - 1].remainingTime);
+    const int remainingTimeFontSize = waveTextFontSize / 2;
+
+    Vector2 remainingTimeTextSize = (Vector2){MeasureText(remainingTimeText, remainingTimeFontSize), remainingTimeFontSize};
+
+    Vector2 remainingTimeTextPosition = (Vector2){screenCenter.x, screenCenter.y + waveTextFontSize + 10};
+    remainingTimeTextPosition = FromCenteredReturnTopLeftPositionV(remainingTimeTextPosition, remainingTimeTextSize);
+    DrawText(remainingTimeText, remainingTimeTextPosition.x, remainingTimeTextPosition.y, remainingTimeFontSize, GRAY);
+
     for (CollectionNode *curr = engine->entities.head; curr != NULL; curr = curr->next)
     {
         Entity *currEntity = curr->entity;

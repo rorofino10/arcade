@@ -44,7 +44,32 @@ void InitWaveSystem(WaveSystem *waveSystem)
         waveSystem->waves[i].blueEnemiesAmount = waves[i].blueEnemiesAmount;
         waveSystem->waves[i].powerupShootingAmount = waves[i].powerupShootingAmount;
         waveSystem->waves[i].powerupSpeedAmount = waves[i].powerupSpeedAmount;
+        waveSystem->waves[i].remainingTime = waves[i].remainingTime;
     }
+}
+
+void CheckWaveEnded(Engine *engine)
+{
+    GameWave wave = engine->waveSystem.waves[engine->waveSystem.currentWave - 1];
+    int currentWave = engine->waveSystem.currentWave;
+    if (wave.redEnemiesAmount == 0 && wave.blueEnemiesAmount == 0)
+    {
+        if (currentWave == WAVES_AMOUNT)
+            WinGame(engine);
+
+        else
+            SpawnNextWave(engine);
+    }
+    if (wave.remainingTime < 0.0f)
+    {
+        LoseGame(engine);
+    }
+}
+
+void UpdateWaveSystem(Engine *engine)
+{
+    engine->waveSystem.waves[engine->waveSystem.currentWave - 1].remainingTime -= GetFrameTime();
+    CheckWaveEnded(engine);
 }
 
 void SpawnWaveEntity(Engine *engine, Vector2 position, EntityType type, GameWave *wave)
@@ -107,20 +132,6 @@ void SpawnNextWave(Engine *engine)
     }
 }
 
-void CheckWaveEnded(Engine *engine)
-{
-    GameWave wave = engine->waveSystem.waves[engine->waveSystem.currentWave - 1];
-    int currentWave = engine->waveSystem.currentWave;
-    if (wave.redEnemiesAmount == 0 && wave.blueEnemiesAmount == 0)
-    {
-        if (currentWave == WAVES_AMOUNT)
-            WinGame(engine);
-
-        else
-            SpawnNextWave(engine);
-    }
-}
-
 void HandleEntityWaveDeath(Engine *engine, Entity *entity, GameWave *wave)
 {
     switch (entity->type)
@@ -144,6 +155,4 @@ void HandleEntityWaveDeath(Engine *engine, Entity *entity, GameWave *wave)
     default:
         break;
     }
-
-    CheckWaveEnded(engine);
 }

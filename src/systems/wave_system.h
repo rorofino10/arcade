@@ -32,7 +32,7 @@ typedef struct WaveSystem
 } WaveSystem;
 
 void InitWaveSystem(WaveSystem *waveSystem);
-
+void UpdateWaveSystem(struct Engine *engine);
 void SpawnNextWave(struct Engine *engine);
 
 void HandleEntityWaveDeath(struct Engine *engine, struct Entity *entity, GameWave *wave);
