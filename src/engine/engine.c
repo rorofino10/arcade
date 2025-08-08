@@ -10,16 +10,16 @@
 #include "states/paused_screen.h"
 
 #include "collision_system.h"
-
+#include "systems/gameplay.h"
 const int POWER_UP_AMOUNT = 1;
 
 void InitEngine(Engine *engine)
 {
     engine->game_state = STATE_TITLE_SCREEN;
 
-    engine->player = DefaultPlayer();
     InitEntityCollection(&engine->entities);
-    AppendEntityCollection(&engine->entities, engine->player);
+
+    SpawnPlayer(engine, (Vector2){0, 0});
 
     Image playerImage = LoadImage("assets/player_character.png");
     ImageResize(&playerImage, engine->player->attributes.size.x, engine->player->attributes.size.y);
@@ -56,23 +56,22 @@ void InitEngine(Engine *engine)
 
     for (int i = 0; i < ENEMIES_AMOUNT; i++)
     {
-        Entity *enemy = DefaultEnemy();
         int randX = rand() % GetScreenWidth();
         int randY = rand() % GetScreenHeight();
-        enemy->position = (Vector2){randX, randY};
-        AppendEntityCollection(&engine->entities, enemy);
+        Vector2 position = (Vector2){randX, randY};
+        SpawnRedEnemy(engine, position);
     }
     for (int i = 0; i < POWER_UP_AMOUNT; i++)
     {
-        Entity *powerUp = DefaultPowerUp();
         int randX = rand() % GetScreenWidth();
         int randY = rand() % GetScreenHeight();
-        powerUp->position = (Vector2){randX, randY};
-        AppendEntityCollection(&engine->entities, powerUp);
+        Vector2 position = (Vector2){randX, randY};
+        SpawnPowerup(engine, position);
     }
 
     InitAudioEngine(&engine->audio_engine);
     InitCollisionSystem();
+    InitGameplaySystem();
 }
 
 void HandleInputEngine(Engine *engine)

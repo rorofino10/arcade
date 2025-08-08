@@ -10,6 +10,8 @@ void handlePlayerEnemy(Engine *engine, Entity *player, Entity *enemy)
 
 void handleBulletEntity(Engine *engine, Entity *bullet, Entity *entity)
 {
+    if (bullet->attributes.entitySpecificAttributes.bullet.shotFrom->type == entity->type)
+        return;
     bullet->alive = false;
     KillEntity(engine, entity);
 }
@@ -34,6 +36,8 @@ void InitCollisionSystem()
             collisionHandlers[i][j] = NULL;
 
     collisionHandlers[ENTITY_BULLET][ENTITY_REDENEMY] = handleBulletEntity;
+    collisionHandlers[ENTITY_BULLET][ENTITY_BLUENEMY] = handleBulletEntity;
+    collisionHandlers[ENTITY_BULLET][ENTITY_PLAYER] = handleBulletEntity;
     collisionHandlers[ENTITY_PLAYER][ENTITY_REDENEMY] = handlePlayerEnemy;
     collisionHandlers[ENTITY_PLAYER][ENTITY_POWERUP] = handlePlayerPowerup;
 }

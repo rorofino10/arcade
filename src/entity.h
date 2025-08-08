@@ -85,7 +85,8 @@ typedef struct Entity
 } Entity;
 
 Entity *DefaultPlayer();
-Entity *DefaultEnemy();
+Entity *DefaultRedEnemy();
+Entity *DefaultBlueEnemy();
 Entity *DefaultPowerUp();
 Entity *DefaultBulletFromEntity(Entity *entity, Vector2 direction);
 Entity *SpawnExplosionFromEntity(Entity *entity);

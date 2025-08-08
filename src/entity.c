@@ -13,12 +13,23 @@ Entity *DefaultPlayer()
     player->attributes.size = (Vector2){DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT};
     player->alive = true;
 }
-Entity *DefaultEnemy()
+Entity *DefaultRedEnemy()
 {
     Entity *enemy = malloc(sizeof(Entity));
     enemy->position = Vector2Zero();
     enemy->velocity = Vector2Zero();
     enemy->type = ENTITY_REDENEMY;
+    enemy->attributes.speed = DEFAULT_ENEMY_SPEED;
+    enemy->attributes.color = WHITE;
+    enemy->attributes.size = (Vector2){DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT};
+    enemy->alive = true;
+}
+Entity *DefaultBlueEnemy()
+{
+    Entity *enemy = malloc(sizeof(Entity));
+    enemy->position = Vector2Zero();
+    enemy->velocity = Vector2Zero();
+    enemy->type = ENTITY_BLUENEMY;
     enemy->attributes.speed = DEFAULT_ENEMY_SPEED;
     enemy->attributes.color = WHITE;
     enemy->attributes.size = (Vector2){DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT};

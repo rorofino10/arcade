@@ -2,21 +2,7 @@
 #include "raymath.h"
 #include "shared/utils.h"
 #include "engine/collision_system.h"
-
-void KillEntity(Engine *engine, Entity *entity)
-{
-    PlaySoundAudioEngine(&engine->audio_engine, SOUND_EFFECT_EXPLOSION);
-    Entity *explosion = SpawnExplosionFromEntity(entity);
-    AppendEntityCollection(&engine->entities, explosion);
-    entity->alive = false;
-}
-
-void ShootBullet(Engine *engine, Entity *entity, Vector2 direction)
-{
-    Entity *bullet = DefaultBulletFromEntity(entity, direction);
-    AppendEntityCollection(&engine->entities, bullet);
-    PlaySoundAudioEngine(&engine->audio_engine, SOUND_EFFECT_BULLET);
-}
+#include "systems/gameplay.h"
 
 void HandleInputPlaying(Engine *engine)
 {

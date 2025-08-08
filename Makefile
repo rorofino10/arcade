@@ -3,7 +3,7 @@ CFLAGS = -g -IC:/raylib/include -Isrc
 LDFLAGS = -LC:/raylib/lib
 LDLIBS = -lraylib -lopengl32 -lgdi32 -lwinmm
 
-CODEDIRS = src src/engine src/states src/shared
+CODEDIRS = src src/engine src/states src/shared src/systems
 CFILES = $(foreach D,$(CODEDIRS),$(wildcard $(D)/*.c))
 OBJECTS = $(patsubst src/%,build/%,$(CFILES:.c=.o))
 
