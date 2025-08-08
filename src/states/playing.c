@@ -102,6 +102,18 @@ void UpdatePlaying(Engine *engine)
 
 void DrawPlaying(Engine *engine)
 {
+    int screenWidth = GetScreenWidth();
+    int screenHeight = GetScreenHeight();
+    DrawRectangle(0, 0, screenWidth, screenHeight, RAYWHITE);
+
+    Vector2 screenCenter = (Vector2){screenWidth / 2, screenHeight / 2};
+    const char *waveText = TextFormat("WAVE %02i", engine->waveSystem.currentWave);
+    const int waveTextFontSize = 50;
+    int waveTextWidth = MeasureText(waveText, waveTextFontSize);
+
+    Vector2 textPosition = FromCenteredReturnTopLeftPositionV(screenCenter, (Vector2){waveTextWidth, waveTextFontSize});
+
+    DrawText(waveText, textPosition.x, textPosition.y, waveTextFontSize, GRAY);
     for (CollectionNode *curr = engine->entities.head; curr != NULL; curr = curr->next)
     {
         Entity *currEntity = curr->entity;
@@ -115,7 +127,7 @@ void DrawPlaying(Engine *engine)
         case ENTITY_REDENEMY:
             DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_REDENEMY], position, WHITE);
             break;
-        case ENTITY_BLUENEMY:
+        case ENTITY_BLUEENEMY:
             DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_BLUENEMY], position, WHITE);
             break;
         case ENTITY_BULLET:

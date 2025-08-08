@@ -27,17 +27,19 @@ Entity *DefaultRedEnemy()
     enemy->attributes.color = WHITE;
     enemy->attributes.size = (Vector2){DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT};
     enemy->alive = true;
+    enemy->attributes.entitySpecificAttributes.waveEntity.wave = NULL;
 }
 Entity *DefaultBlueEnemy()
 {
     Entity *enemy = malloc(sizeof(Entity));
     enemy->position = Vector2Zero();
     enemy->velocity = Vector2Zero();
-    enemy->type = ENTITY_BLUENEMY;
+    enemy->type = ENTITY_BLUEENEMY;
     enemy->attributes.speed = DEFAULT_ENEMY_SPEED;
     enemy->attributes.color = WHITE;
     enemy->attributes.size = (Vector2){DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT};
     enemy->alive = true;
+    enemy->attributes.entitySpecificAttributes.waveEntity.wave = NULL;
 }
 
 Entity *DefaultPowerupSpeed()
@@ -50,6 +52,7 @@ Entity *DefaultPowerupSpeed()
     powerUp->attributes.color = WHITE;
     powerUp->attributes.size = (Vector2){DEFAULT_POWERUP_WIDTH, DEFAULT_POWERUP_HEIGHT};
     powerUp->alive = true;
+    powerUp->attributes.entitySpecificAttributes.waveEntity.wave = NULL;
 }
 Entity *DefaultPowerupShooting()
 {
@@ -61,6 +64,7 @@ Entity *DefaultPowerupShooting()
     powerUp->attributes.color = WHITE;
     powerUp->attributes.size = (Vector2){DEFAULT_POWERUP_WIDTH, DEFAULT_POWERUP_HEIGHT};
     powerUp->alive = true;
+    powerUp->attributes.entitySpecificAttributes.waveEntity.wave = NULL;
 }
 
 Entity *DefaultBulletFromEntity(Entity *entity, Vector2 direction)

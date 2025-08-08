@@ -4,24 +4,27 @@
 
 DeathHandler deathHandlers[ENTITY_TYPE_COUNT];
 
-void SpawnPlayer(Engine *engine, Vector2 position)
+Entity *SpawnPlayer(Engine *engine, Vector2 position)
 {
     engine->player = DefaultPlayer();
     AppendEntityCollection(&engine->entities, engine->player);
+    return engine->player;
 }
 
-void SpawnRedEnemy(Engine *engine, Vector2 position)
+Entity *SpawnRedEnemy(Engine *engine, Vector2 position)
 {
     Entity *enemy = DefaultRedEnemy();
     enemy->position = position;
     AppendEntityCollection(&engine->entities, enemy);
+    return enemy;
 }
 
-void SpawnBlueEnemy(Engine *engine, Vector2 position)
+Entity *SpawnBlueEnemy(Engine *engine, Vector2 position)
 {
     Entity *enemy = DefaultBlueEnemy();
     enemy->position = position;
     AppendEntityCollection(&engine->entities, enemy);
+    return enemy;
 }
 
 void handleBlueEnemyDeath(Engine *engine, Entity *entity)
@@ -56,20 +59,28 @@ void KillEntity(Engine *engine, Entity *entity)
     AppendEntityCollection(&engine->entities, explosion);
     entity->alive = false;
 
+    GameWave *wave = entity->attributes.entitySpecificAttributes.waveEntity.wave;
+    if (wave)
+    {
+        HandleEntityWaveDeath(engine, entity, wave);
+    }
+
     handleEntityDeath(engine, entity);
 }
 
-void SpawnPowerupSpeed(Engine *engine, Vector2 position)
+Entity *SpawnPowerupSpeed(Engine *engine, Vector2 position)
 {
     Entity *powerUp = DefaultPowerupSpeed();
     powerUp->position = position;
     AppendEntityCollection(&engine->entities, powerUp);
+    return powerUp;
 }
-void SpawnPowerupShooting(Engine *engine, Vector2 position)
+Entity *SpawnPowerupShooting(Engine *engine, Vector2 position)
 {
     Entity *powerUp = DefaultPowerupShooting();
     powerUp->position = position;
     AppendEntityCollection(&engine->entities, powerUp);
+    return powerUp;
 }
 
 void ShootBullet(Engine *engine, Entity *entity, Vector2 direction)
@@ -98,6 +109,6 @@ void InitGameplaySystem()
         deathHandlers[i] = NULL;
     }
 
-    deathHandlers[ENTITY_BLUENEMY] = handleBlueEnemyDeath;
+    deathHandlers[ENTITY_BLUEENEMY] = handleBlueEnemyDeath;
     deathHandlers[ENTITY_PLAYER] = handlePlayerDeath;
 }

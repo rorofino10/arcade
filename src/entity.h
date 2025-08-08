@@ -2,7 +2,7 @@
 #define Entity_H
 
 #include "raylib.h"
-
+#include "systems/wave_system.h"
 #define DEFAULT_PLAYER_SPEED 100.0f
 #define DEFAULT_PLAYER_WIDTH 50
 #define DEFAULT_PLAYER_HEIGHT 50
@@ -39,7 +39,7 @@ typedef enum
 {
     ENTITY_BULLET,
     ENTITY_REDENEMY,
-    ENTITY_BLUENEMY,
+    ENTITY_BLUEENEMY,
     ENTITY_PLAYER,
     ENTITY_EXPLOSION,
     ENTITY_POWERUP_SPEED,
@@ -69,6 +69,11 @@ typedef struct
 
 typedef struct
 {
+    GameWave *wave;
+} WaveEntityAttributes;
+
+typedef struct
+{
     float speed;
     Vector2 size;
     Color color;
@@ -77,6 +82,7 @@ typedef struct
         ExplosionAttributes explosion;
         PlayerAttributes player;
         BulletAttributes bullet;
+        WaveEntityAttributes waveEntity;
 
     } entitySpecificAttributes;
 } EntityAttributes;

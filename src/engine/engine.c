@@ -58,26 +58,28 @@ void InitEngine(Engine *engine)
     engine->entityTextures[ENTITY_TEXTURE_BULLET] = LoadTextureFromImage(bulletImage);
     UnloadImage(bulletImage);
 
-    srand(time(NULL));
+    // srand(time(NULL));
 
-    for (int i = 0; i < ENEMIES_AMOUNT; i++)
-    {
-        int randX = rand() % GetScreenWidth();
-        int randY = rand() % GetScreenHeight();
-        Vector2 position = (Vector2){randX, randY};
-        SpawnRedEnemy(engine, position);
-    }
-    for (int i = 0; i < POWER_UP_AMOUNT; i++)
-    {
-        int randX = rand() % GetScreenWidth();
-        int randY = rand() % GetScreenHeight();
-        Vector2 position = (Vector2){randX, randY};
-        SpawnPowerupShooting(engine, position);
-    }
-
+    // for (int i = 0; i < ENEMIES_AMOUNT; i++)
+    // {
+    //     int randX = rand() % GetScreenWidth();
+    //     int randY = rand() % GetScreenHeight();
+    //     Vector2 position = (Vector2){randX, randY};
+    //     SpawnRedEnemy(engine, position);
+    // }
+    // for (int i = 0; i < POWER_UP_AMOUNT; i++)
+    // {
+    //     int randX = rand() % GetScreenWidth();
+    //     int randY = rand() % GetScreenHeight();
+    //     Vector2 position = (Vector2){randX, randY};
+    //     SpawnPowerupShooting(engine, position);
+    // }
+    InitWaveSystem(&engine->waveSystem);
     InitAudioEngine(&engine->audio_engine);
     InitCollisionSystem();
     InitGameplaySystem();
+
+    SpawnNextWave(engine);
 }
 
 void HandleInputEngine(Engine *engine)

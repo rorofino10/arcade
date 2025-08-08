@@ -49,7 +49,7 @@ void InitCollisionSystem()
             collisionHandlers[i][j] = NULL;
 
     collisionHandlers[ENTITY_BULLET][ENTITY_REDENEMY] = handleBulletEntity;
-    collisionHandlers[ENTITY_BULLET][ENTITY_BLUENEMY] = handleBulletEntity;
+    collisionHandlers[ENTITY_BULLET][ENTITY_BLUEENEMY] = handleBulletEntity;
     collisionHandlers[ENTITY_BULLET][ENTITY_PLAYER] = handleBulletEntity;
     collisionHandlers[ENTITY_PLAYER][ENTITY_REDENEMY] = handlePlayerEnemy;
     collisionHandlers[ENTITY_PLAYER][ENTITY_POWERUP_SPEED] = handlePlayerPowerupSpeed;

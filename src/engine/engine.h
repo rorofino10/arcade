@@ -4,6 +4,7 @@
 #include "entitycollection.h"
 #include "audio_engine.h"
 #include "states/state.h"
+#include "systems/wave_system.h"
 
 #define DEFAULT_BACKGROUND_COLOR RAYWHITE
 
@@ -26,6 +27,7 @@ typedef struct Engine
     EntityCollection entities;
     Entity *player;
     Texture2D entityTextures[ENTITY_TEXTURE_COUNT];
+    WaveSystem waveSystem;
     GameState game_state;
 
 } Engine;
