@@ -61,22 +61,22 @@ void UpdatePlaying(Engine *engine)
         currEntity->position = Vector2Add(currEntity->position, Vector2Scale(currEntity->velocity, GetFrameTime()));
         switch (currEntity->type)
         {
-        case BULLET:
+        case ENTITY_BULLET:
             if (isOffScreen(currEntity))
                 currEntity->alive = false;
             break;
-        case RED_ENEMY:
+        case ENTITY_REDENEMY:
             Vector2 direction = Vector2Normalize(Vector2Subtract(engine->player->position, currEntity->position));
             currEntity->velocity = Vector2Scale(direction, currEntity->attributes.speed);
             break;
-        case EXPLOSION:
+        case ENTITY_EXPLOSION:
             currEntity->attributes.entitySpecificAttributes.explosion.lifetime -= GetFrameTime();
             if (currEntity->attributes.entitySpecificAttributes.explosion.lifetime < 0.0f)
                 currEntity->alive = false;
             break;
-        case POWER_UP:
+        case ENTITY_POWERUP:
             break;
-        case PLAYER_CONTROLLED:
+        case ENTITY_PLAYER:
             float *powerUpLifetime = &currEntity->attributes.entitySpecificAttributes.player.powerUpLifetime;
             if (*powerUpLifetime > 0.0f)
             {
@@ -102,25 +102,26 @@ void DrawPlaying(Engine *engine)
     {
         Entity *currEntity = curr->entity;
         Vector2 position = FromCenteredReturnTopLeftPosition(currEntity);
+
         switch (currEntity->type)
         {
-        case PLAYER_CONTROLLED:
-            DrawTextureV(engine->entityTextures[PLAYER_TEXTURE], position, WHITE);
+        case ENTITY_PLAYER:
+            DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_PLAYER], position, WHITE);
             break;
-        case RED_ENEMY:
-            DrawTextureV(engine->entityTextures[RED_ENEMY_TEXTURE], position, WHITE);
+        case ENTITY_REDENEMY:
+            DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_REDENEMY], position, WHITE);
             break;
-        case BLUE_ENEMY:
-            DrawTextureV(engine->entityTextures[BLUE_ENEMY_TEXTURE], position, WHITE);
+        case ENTITY_BLUENEMY:
+            DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_BLUENEMY], position, WHITE);
             break;
-        case BULLET:
-            DrawCircleV(position, currEntity->attributes.size.x, DEFAULT_BULLET_COLOR);
+        case ENTITY_BULLET:
+            DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_BULLET], position, WHITE);
             break;
-        case EXPLOSION:
-            DrawTextureV(engine->entityTextures[EXPLOSION_TEXTURE], position, WHITE);
+        case ENTITY_EXPLOSION:
+            DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_EXPLOSION], position, WHITE);
             break;
-        case POWER_UP:
-            DrawTextureV(engine->entityTextures[BLUE_ENEMY_TEXTURE], position, WHITE);
+        case ENTITY_POWERUP:
+            DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_POWERUP], position, WHITE);
             break;
         }
     }

@@ -9,14 +9,16 @@
 
 #define ENEMIES_AMOUNT 5
 
-#define MAX_ENEMY_TEXTURES 5
-
 typedef enum
 {
-    PLAYER_TEXTURE,
-    RED_ENEMY_TEXTURE,
-    BLUE_ENEMY_TEXTURE,
-    EXPLOSION_TEXTURE,
+    ENTITY_TEXTURE_PLAYER,
+    ENTITY_TEXTURE_REDENEMY,
+    ENTITY_TEXTURE_BLUENEMY,
+    ENTITY_TEXTURE_EXPLOSION,
+    ENTITY_TEXTURE_POWERUP,
+    ENTITY_TEXTURE_BULLET,
+    // Count
+    ENTITY_TEXTURE_COUNT
 } ENTITY_TEXTURES;
 
 typedef struct Engine
@@ -24,7 +26,7 @@ typedef struct Engine
     AudioEngine audio_engine;
     EntityCollection entities;
     Entity *player;
-    Texture2D entityTextures[MAX_ENEMY_TEXTURES];
+    Texture2D entityTextures[ENTITY_TEXTURE_COUNT];
     GameState game_state;
 
 } Engine;

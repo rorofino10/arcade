@@ -33,9 +33,9 @@ void InitCollisionSystem()
         for (int j = 0; j < ENTITY_TYPE_COUNT; ++j)
             collisionHandlers[i][j] = NULL;
 
-    collisionHandlers[BULLET][RED_ENEMY] = handleBulletEntity;
-    collisionHandlers[PLAYER_CONTROLLED][RED_ENEMY] = handlePlayerEnemy;
-    collisionHandlers[PLAYER_CONTROLLED][POWER_UP] = handlePlayerPowerup;
+    collisionHandlers[ENTITY_BULLET][ENTITY_REDENEMY] = handleBulletEntity;
+    collisionHandlers[ENTITY_PLAYER][ENTITY_REDENEMY] = handlePlayerEnemy;
+    collisionHandlers[ENTITY_PLAYER][ENTITY_POWERUP] = handlePlayerPowerup;
 }
 
 bool CheckCollisionBetweenEntities(Entity *a, Entity *b)

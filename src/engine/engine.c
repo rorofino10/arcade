@@ -23,23 +23,34 @@ void InitEngine(Engine *engine)
 
     Image playerImage = LoadImage("assets/player_character.png");
     ImageResize(&playerImage, engine->player->attributes.size.x, engine->player->attributes.size.y);
-    engine->entityTextures[PLAYER_TEXTURE] = LoadTextureFromImage(playerImage);
+    engine->entityTextures[ENTITY_TEXTURE_PLAYER] = LoadTextureFromImage(playerImage);
     UnloadImage(playerImage);
 
     Image enemyRedImage = LoadImage("assets/red_enemy.png");
     ImageResize(&enemyRedImage, DEFAULT_ENEMY_WIDTH, DEFAULT_ENEMY_HEIGHT);
-    engine->entityTextures[RED_ENEMY_TEXTURE] = LoadTextureFromImage(enemyRedImage);
+    engine->entityTextures[ENTITY_TEXTURE_REDENEMY] = LoadTextureFromImage(enemyRedImage);
     UnloadImage(enemyRedImage);
 
     Image enemyBlueImage = LoadImage("assets/blue_enemy.png");
     ImageResize(&enemyBlueImage, DEFAULT_ENEMY_WIDTH, DEFAULT_ENEMY_HEIGHT);
-    engine->entityTextures[BLUE_ENEMY_TEXTURE] = LoadTextureFromImage(enemyBlueImage);
+    engine->entityTextures[ENTITY_TEXTURE_BLUENEMY] = LoadTextureFromImage(enemyBlueImage);
     UnloadImage(enemyBlueImage);
 
     Image explosionImage = LoadImage("assets/explosion.png");
     ImageResize(&explosionImage, DEFAULT_EXPLOSION_WIDTH, DEFAULT_EXPLOSION_HEIGHT);
-    engine->entityTextures[EXPLOSION_TEXTURE] = LoadTextureFromImage(explosionImage);
+    engine->entityTextures[ENTITY_TEXTURE_EXPLOSION] = LoadTextureFromImage(explosionImage);
     UnloadImage(explosionImage);
+
+    Image powerupImage = LoadImage("assets/powerup.png");
+    ImageResize(&powerupImage, DEFAULT_POWERUP_WIDTH, DEFAULT_POWERUP_HEIGHT);
+    engine->entityTextures[ENTITY_TEXTURE_POWERUP] = LoadTextureFromImage(powerupImage);
+    // engine->entityTextures[ENTITY_TEXTURE_BULLET] = LoadTextureFromImage(powerupImage);
+    UnloadImage(powerupImage);
+
+    Image bulletImage = LoadImage("assets/bullet.png");
+    ImageResize(&bulletImage, DEFAULT_BULLET_WIDTH, DEFAULT_BULLET_HEIGHT);
+    engine->entityTextures[ENTITY_TEXTURE_BULLET] = LoadTextureFromImage(bulletImage);
+    UnloadImage(bulletImage);
 
     srand(time(NULL));
 
@@ -130,7 +141,7 @@ void FreeEngine(Engine *engine)
 {
     FreeEntityCollection(&engine->entities);
 
-    for (int i = 0; i < MAX_ENEMY_TEXTURES; i++)
+    for (int i = 0; i < ENTITY_TEXTURE_COUNT; i++)
     {
         UnloadTexture(engine->entityTextures[i]);
     }
