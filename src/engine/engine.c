@@ -12,7 +12,8 @@
 
 #include "collision_system.h"
 #include "systems/gameplay.h"
-const int POWER_UP_AMOUNT = 1;
+const int POWER_UP_AMOUNT = 5;
+const int ENEMIES_AMOUNT = 0;
 
 void InitEngine(Engine *engine)
 {
@@ -44,9 +45,13 @@ void InitEngine(Engine *engine)
 
     Image powerupImage = LoadImage("assets/powerup.png");
     ImageResize(&powerupImage, DEFAULT_POWERUP_WIDTH, DEFAULT_POWERUP_HEIGHT);
-    engine->entityTextures[ENTITY_TEXTURE_POWERUP] = LoadTextureFromImage(powerupImage);
-    // engine->entityTextures[ENTITY_TEXTURE_BULLET] = LoadTextureFromImage(powerupImage);
+    engine->entityTextures[ENTITY_TEXTURE_POWERUP_SPEED] = LoadTextureFromImage(powerupImage);
     UnloadImage(powerupImage);
+
+    Image powerupShootingImage = LoadImage("assets/powerup_shooting.png");
+    ImageResize(&powerupShootingImage, DEFAULT_POWERUP_WIDTH, DEFAULT_POWERUP_HEIGHT);
+    engine->entityTextures[ENTITY_TEXTURE_POWERUP_SHOOTING] = LoadTextureFromImage(powerupShootingImage);
+    UnloadImage(powerupShootingImage);
 
     Image bulletImage = LoadImage("assets/bullet.png");
     ImageResize(&bulletImage, DEFAULT_BULLET_WIDTH, DEFAULT_BULLET_HEIGHT);
@@ -67,7 +72,7 @@ void InitEngine(Engine *engine)
         int randX = rand() % GetScreenWidth();
         int randY = rand() % GetScreenHeight();
         Vector2 position = (Vector2){randX, randY};
-        SpawnPowerup(engine, position);
+        SpawnPowerupShooting(engine, position);
     }
 
     InitAudioEngine(&engine->audio_engine);

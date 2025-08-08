@@ -16,16 +16,29 @@ void handleBulletEntity(Engine *engine, Entity *bullet, Entity *entity)
     KillEntity(engine, entity);
 }
 
-void ApplyPowerup(Engine *engine, Entity *player)
+void ApplyPowerupSpeed(Engine *engine, Entity *player)
 {
     PlaySoundAudioEngine(&engine->audio_engine, SOUND_EFFECT_POWERUP);
     player->attributes.speed *= 2.0f;
-    player->attributes.entitySpecificAttributes.player.powerUpLifetime = POWER_UP_LIFETIME;
+    player->attributes.entitySpecificAttributes.player.powerupSpeedLifetime = DEFAULT_POWERUP_SPEED_LIFETIME;
 }
 
-void handlePlayerPowerup(Engine *engine, Entity *player, Entity *powerup)
+void handlePlayerPowerupSpeed(Engine *engine, Entity *player, Entity *powerup)
 {
-    ApplyPowerup(engine, player);
+    ApplyPowerupSpeed(engine, player);
+    powerup->alive = false;
+}
+void ApplyPowerupShooting(Engine *engine, Entity *player)
+{
+    PlaySoundAudioEngine(&engine->audio_engine, SOUND_EFFECT_POWERUP);
+    player->attributes.entitySpecificAttributes.player.powerupShootingLifetime = DEFAULT_POWERUP_SHOOTING_LIFETIME;
+    player->attributes.entitySpecificAttributes.player.shootingCooldown = DEFAULT_POWERUP_SHOOTING_COOLDOWN;
+    player->attributes.entitySpecificAttributes.player.shootingRemainingCooldown = 0.0f;
+}
+
+void handlePlayerPowerupShooting(Engine *engine, Entity *player, Entity *powerup)
+{
+    ApplyPowerupShooting(engine, player);
     powerup->alive = false;
 }
 
@@ -39,7 +52,8 @@ void InitCollisionSystem()
     collisionHandlers[ENTITY_BULLET][ENTITY_BLUENEMY] = handleBulletEntity;
     collisionHandlers[ENTITY_BULLET][ENTITY_PLAYER] = handleBulletEntity;
     collisionHandlers[ENTITY_PLAYER][ENTITY_REDENEMY] = handlePlayerEnemy;
-    collisionHandlers[ENTITY_PLAYER][ENTITY_POWERUP] = handlePlayerPowerup;
+    collisionHandlers[ENTITY_PLAYER][ENTITY_POWERUP_SPEED] = handlePlayerPowerupSpeed;
+    collisionHandlers[ENTITY_PLAYER][ENTITY_POWERUP_SHOOTING] = handlePlayerPowerupShooting;
 }
 
 bool CheckCollisionBetweenEntities(Entity *a, Entity *b)

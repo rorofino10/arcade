@@ -59,9 +59,15 @@ void KillEntity(Engine *engine, Entity *entity)
     handleEntityDeath(engine, entity);
 }
 
-void SpawnPowerup(Engine *engine, Vector2 position)
+void SpawnPowerupSpeed(Engine *engine, Vector2 position)
 {
-    Entity *powerUp = DefaultPowerUp();
+    Entity *powerUp = DefaultPowerupSpeed();
+    powerUp->position = position;
+    AppendEntityCollection(&engine->entities, powerUp);
+}
+void SpawnPowerupShooting(Engine *engine, Vector2 position)
+{
+    Entity *powerUp = DefaultPowerupShooting();
     powerUp->position = position;
     AppendEntityCollection(&engine->entities, powerUp);
 }
@@ -71,6 +77,18 @@ void ShootBullet(Engine *engine, Entity *entity, Vector2 direction)
     Entity *bullet = DefaultBulletFromEntity(entity, direction);
     AppendEntityCollection(&engine->entities, bullet);
     PlaySoundAudioEngine(&engine->audio_engine, SOUND_EFFECT_BULLET);
+}
+
+void PlayerShootBullet(Engine *engine, Vector2 direction)
+{
+    float *shootingRemainingCooldown = &engine->player->attributes.entitySpecificAttributes.player.shootingRemainingCooldown;
+    float *shootingCooldown = &engine->player->attributes.entitySpecificAttributes.player.shootingCooldown;
+    bool canShoot = !(*shootingRemainingCooldown > 0.0f);
+    if (canShoot)
+    {
+        ShootBullet(engine, engine->player, direction);
+        *shootingRemainingCooldown = *shootingCooldown;
+    }
 }
 
 void InitGameplaySystem()

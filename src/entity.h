@@ -4,9 +4,9 @@
 #include "raylib.h"
 
 #define DEFAULT_PLAYER_SPEED 100.0f
-
 #define DEFAULT_PLAYER_WIDTH 50
 #define DEFAULT_PLAYER_HEIGHT 50
+#define DEFAULT_PLAYER_SHOOTING_COOLDOWN 2.0f
 
 #define DEFAULT_ENEMY_SPEED 25.0f
 #define DEFAULT_ENEMY_WIDTH 50
@@ -23,7 +23,9 @@
 #define DEFAULT_POWERUP_WIDTH 50
 #define DEFAULT_POWERUP_HEIGHT 50
 
-#define POWER_UP_LIFETIME 2.0f
+#define DEFAULT_POWERUP_SPEED_LIFETIME 2.0f
+#define DEFAULT_POWERUP_SHOOTING_LIFETIME 2.0f
+#define DEFAULT_POWERUP_SHOOTING_COOLDOWN 0.2f
 
 typedef enum
 {
@@ -40,7 +42,8 @@ typedef enum
     ENTITY_BLUENEMY,
     ENTITY_PLAYER,
     ENTITY_EXPLOSION,
-    ENTITY_POWERUP,
+    ENTITY_POWERUP_SPEED,
+    ENTITY_POWERUP_SHOOTING,
 
     // To see how many entities
     ENTITY_TYPE_COUNT
@@ -53,7 +56,10 @@ typedef struct
 
 typedef struct
 {
-    float powerUpLifetime;
+    float powerupSpeedLifetime;
+    float powerupShootingLifetime;
+    float shootingRemainingCooldown;
+    float shootingCooldown;
 } PlayerAttributes;
 
 typedef struct
@@ -87,7 +93,8 @@ typedef struct Entity
 Entity *DefaultPlayer();
 Entity *DefaultRedEnemy();
 Entity *DefaultBlueEnemy();
-Entity *DefaultPowerUp();
+Entity *DefaultPowerupSpeed();
+Entity *DefaultPowerupShooting();
 Entity *DefaultBulletFromEntity(Entity *entity, Vector2 direction);
 Entity *SpawnExplosionFromEntity(Entity *entity);
 Rectangle GetEntityRectangle(Entity *entity);

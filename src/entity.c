@@ -11,6 +11,10 @@ Entity *DefaultPlayer()
     player->attributes.speed = DEFAULT_PLAYER_SPEED;
     player->attributes.color = WHITE;
     player->attributes.size = (Vector2){DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT};
+    player->attributes.entitySpecificAttributes.player.powerupSpeedLifetime = 0.0f;
+    player->attributes.entitySpecificAttributes.player.powerupShootingLifetime = 0.0f;
+    player->attributes.entitySpecificAttributes.player.shootingCooldown = DEFAULT_PLAYER_SHOOTING_COOLDOWN;
+    player->attributes.entitySpecificAttributes.player.shootingRemainingCooldown = 0.0f;
     player->alive = true;
 }
 Entity *DefaultRedEnemy()
@@ -36,15 +40,26 @@ Entity *DefaultBlueEnemy()
     enemy->alive = true;
 }
 
-Entity *DefaultPowerUp()
+Entity *DefaultPowerupSpeed()
 {
     Entity *powerUp = malloc(sizeof(Entity));
     powerUp->position = Vector2Zero();
     powerUp->velocity = Vector2Zero();
-    powerUp->type = ENTITY_POWERUP;
+    powerUp->type = ENTITY_POWERUP_SPEED;
     powerUp->attributes.speed = 0.0f;
     powerUp->attributes.color = WHITE;
-    powerUp->attributes.size = (Vector2){DEFAULT_ENEMY_WIDTH, DEFAULT_ENEMY_HEIGHT};
+    powerUp->attributes.size = (Vector2){DEFAULT_POWERUP_WIDTH, DEFAULT_POWERUP_HEIGHT};
+    powerUp->alive = true;
+}
+Entity *DefaultPowerupShooting()
+{
+    Entity *powerUp = malloc(sizeof(Entity));
+    powerUp->position = Vector2Zero();
+    powerUp->velocity = Vector2Zero();
+    powerUp->type = ENTITY_POWERUP_SHOOTING;
+    powerUp->attributes.speed = 0.0f;
+    powerUp->attributes.color = WHITE;
+    powerUp->attributes.size = (Vector2){DEFAULT_POWERUP_WIDTH, DEFAULT_POWERUP_HEIGHT};
     powerUp->alive = true;
 }
 

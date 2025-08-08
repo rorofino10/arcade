@@ -8,7 +8,7 @@ const char *lostScreenTitle = "YOU LOST D:";
 const int lostScreenTitleFontSize = 40;
 const Color lostScreenTitleColor = RAYWHITE;
 
-const char *lostScreenTitleSubTitle = "PRESS R TO RESTART";
+const char *lostScreenTitleSubTitle = "";
 const int lostScreenTitleSubTitleFontSize = lostScreenTitleFontSize / 2;
 const Color lostScreenTitleSubTitleColor = GRAY;
 

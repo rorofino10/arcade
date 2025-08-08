@@ -20,14 +20,17 @@ void HandleInputPlaying(Engine *engine)
     float speed = engine->player->attributes.speed;
     engine->player->velocity = Vector2Scale(velocity, speed);
 
-    if (IsKeyPressed(KEY_D))
-        ShootBullet(engine, engine->player, (Vector2){1, 0});
-    if (IsKeyPressed(KEY_W))
-        ShootBullet(engine, engine->player, (Vector2){0, -1});
-    if (IsKeyPressed(KEY_A))
-        ShootBullet(engine, engine->player, (Vector2){-1, 0});
-    if (IsKeyPressed(KEY_S))
-        ShootBullet(engine, engine->player, (Vector2){0, 1});
+    if (engine->player->attributes.entitySpecificAttributes.player.shootingCooldown > 0.0f)
+    {
+        if (IsKeyDown(KEY_D))
+            PlayerShootBullet(engine, (Vector2){1, 0});
+        if (IsKeyDown(KEY_W))
+            PlayerShootBullet(engine, (Vector2){0, -1});
+        if (IsKeyDown(KEY_A))
+            PlayerShootBullet(engine, (Vector2){-1, 0});
+        if (IsKeyDown(KEY_S))
+            PlayerShootBullet(engine, (Vector2){0, 1});
+    }
 
     if (IsKeyPressed(KEY_P))
         PauseGame(engine);
@@ -60,18 +63,33 @@ void UpdatePlaying(Engine *engine)
             if (currEntity->attributes.entitySpecificAttributes.explosion.lifetime < 0.0f)
                 currEntity->alive = false;
             break;
-        case ENTITY_POWERUP:
+        case ENTITY_POWERUP_SPEED:
             break;
         case ENTITY_PLAYER:
-            float *powerUpLifetime = &currEntity->attributes.entitySpecificAttributes.player.powerUpLifetime;
-            if (*powerUpLifetime > 0.0f)
+            float *powerupSpeedLifetime = &currEntity->attributes.entitySpecificAttributes.player.powerupSpeedLifetime;
+            float *powerupShootingLifetime = &currEntity->attributes.entitySpecificAttributes.player.powerupShootingLifetime;
+            float *shootingRemainingCooldown = &currEntity->attributes.entitySpecificAttributes.player.shootingRemainingCooldown;
+            if (*powerupSpeedLifetime > 0.0f)
             {
-                *powerUpLifetime -= GetFrameTime();
+                *powerupSpeedLifetime -= GetFrameTime();
             }
             else
             {
-                *powerUpLifetime = 0.0f;
+                *powerupSpeedLifetime = 0.0f;
                 currEntity->attributes.speed = DEFAULT_PLAYER_SPEED;
+            }
+            if (*powerupShootingLifetime > 0.0f)
+            {
+                *powerupShootingLifetime -= GetFrameTime();
+            }
+            else
+            {
+                *powerupShootingLifetime = 0.0f;
+                currEntity->attributes.entitySpecificAttributes.player.shootingCooldown = DEFAULT_PLAYER_SHOOTING_COOLDOWN;
+            }
+            if (*shootingRemainingCooldown > 0.0f)
+            {
+                *shootingRemainingCooldown -= GetFrameTime();
             }
             break;
         default:
@@ -106,8 +124,11 @@ void DrawPlaying(Engine *engine)
         case ENTITY_EXPLOSION:
             DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_EXPLOSION], position, WHITE);
             break;
-        case ENTITY_POWERUP:
-            DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_POWERUP], position, WHITE);
+        case ENTITY_POWERUP_SHOOTING:
+            DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_POWERUP_SHOOTING], position, WHITE);
+            break;
+        case ENTITY_POWERUP_SPEED:
+            DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_POWERUP_SPEED], position, WHITE);
             break;
         }
     }
