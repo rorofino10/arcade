@@ -17,16 +17,16 @@ GameWave waves[WAVES_AMOUNT] = {
         .remainingTime = 5.0f,
     },
     {
-        .redEnemiesAmount = 3,
-        .blueEnemiesAmount = 2,
+        .redEnemiesAmount = 1,
+        .blueEnemiesAmount = 0,
         .powerupShootingAmount = 2,
         .powerupSpeedAmount = 3,
         .stats = {0, 0, 0, 0},
         .remainingTime = 5.0f,
     },
     {
-        .redEnemiesAmount = 3,
-        .blueEnemiesAmount = 2,
+        .redEnemiesAmount = 1,
+        .blueEnemiesAmount = 0,
         .powerupShootingAmount = 2,
         .powerupSpeedAmount = 3,
         .stats = {0, 0, 0, 0},
@@ -47,7 +47,7 @@ void InitWaveSystem(WaveSystem *waveSystem)
     }
 }
 
-void SpawnWaveEntity(Engine *engine, Vector2 position, EntityType type, Wave *wave)
+void SpawnWaveEntity(Engine *engine, Vector2 position, EntityType type, GameWave *wave)
 {
     Entity *entity;
     switch (type)
@@ -115,6 +115,7 @@ void CheckWaveEnded(Engine *engine)
     {
         if (currentWave == WAVES_AMOUNT)
             WinGame(engine);
+
         else
             SpawnNextWave(engine);
     }

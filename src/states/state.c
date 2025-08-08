@@ -6,6 +6,12 @@ void LoseGame(Engine *engine)
     engine->game_state = STATE_LOST;
     PauseMusicAudioEngine(&engine->audio_engine);
 }
+
+void WinGame(Engine *engine)
+{
+    engine->game_state = STATE_WIN;
+    PauseMusicAudioEngine(&engine->audio_engine);
+}
 void PauseGame(Engine *engine)
 {
     engine->game_state = STATE_PAUSED;

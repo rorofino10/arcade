@@ -9,6 +9,7 @@
 #include "states/title_screen.h"
 #include "states/paused_screen.h"
 #include "states/lost_screen.h"
+#include "states/win_screen.h"
 
 #include "collision_system.h"
 #include "systems/gameplay.h"
@@ -58,22 +59,6 @@ void InitEngine(Engine *engine)
     engine->entityTextures[ENTITY_TEXTURE_BULLET] = LoadTextureFromImage(bulletImage);
     UnloadImage(bulletImage);
 
-    // srand(time(NULL));
-
-    // for (int i = 0; i < ENEMIES_AMOUNT; i++)
-    // {
-    //     int randX = rand() % GetScreenWidth();
-    //     int randY = rand() % GetScreenHeight();
-    //     Vector2 position = (Vector2){randX, randY};
-    //     SpawnRedEnemy(engine, position);
-    // }
-    // for (int i = 0; i < POWER_UP_AMOUNT; i++)
-    // {
-    //     int randX = rand() % GetScreenWidth();
-    //     int randY = rand() % GetScreenHeight();
-    //     Vector2 position = (Vector2){randX, randY};
-    //     SpawnPowerupShooting(engine, position);
-    // }
     InitWaveSystem(&engine->waveSystem);
     InitAudioEngine(&engine->audio_engine);
     InitCollisionSystem();
@@ -98,6 +83,9 @@ void HandleInputEngine(Engine *engine)
     case STATE_LOST:
         HandleInputLostScreen(engine);
         break;
+    case STATE_WIN:
+        HandleInputWinScreen(engine);
+        break;
     default:
         break;
     }
@@ -118,6 +106,9 @@ void UpdateEngine(Engine *engine)
         break;
     case STATE_LOST:
         UpdateLostScreen(engine);
+        break;
+    case STATE_WIN:
+        UpdateWinScreen(engine);
         break;
     default:
         break;
@@ -145,6 +136,9 @@ void DrawEngine(Engine *engine)
         break;
     case STATE_LOST:
         DrawLostScreen(engine);
+        break;
+    case STATE_WIN:
+        DrawWinScreen(engine);
         break;
     default:
         break;
