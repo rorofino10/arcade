@@ -4,11 +4,13 @@
 #include "raymath.h"
 #include "shared/utils.h"
 
+#include "state.h"
+
 const char *lostScreenTitle = "YOU LOST D:";
 const int lostScreenTitleFontSize = 40;
 const Color lostScreenTitleColor = RAYWHITE;
 
-const char *lostScreenTitleSubTitle = "";
+const char *lostScreenTitleSubTitle = "PRESS R TO RESTART";
 const int lostScreenTitleSubTitleFontSize = lostScreenTitleFontSize / 2;
 const Color lostScreenTitleSubTitleColor = GRAY;
 
@@ -18,7 +20,7 @@ void HandleInputLostScreen(Engine *engine)
 {
     if (IsKeyPressed(KEY_R))
     {
-        // engine->game_state = STATE_PLAYING;
+        RestartGame(engine);
     }
 }
 void UpdateLostScreen(Engine *engine)

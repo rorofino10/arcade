@@ -12,9 +12,7 @@ const char *subTitle = "PRESS ENTER TO CONTINUE";
 void HandleInputTitleScreen(Engine *engine)
 {
     if (IsKeyDown(KEY_ENTER))
-    {
-        engine->game_state = STATE_PLAYING;
-    }
+        StartGame(engine);
 }
 
 void UpdateTitleScreen(Engine *engine)

@@ -32,6 +32,8 @@ typedef struct WaveSystem
 } WaveSystem;
 
 void InitWaveSystem(WaveSystem *waveSystem);
+void RestartWaveSystem(WaveSystem *waveSystem);
+
 void UpdateWaveSystem(struct Engine *engine);
 void SpawnNextWave(struct Engine *engine);
 

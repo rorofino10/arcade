@@ -20,12 +20,8 @@ void InitEngine(Engine *engine)
 {
     engine->game_state = STATE_TITLE_SCREEN;
 
-    InitEntityCollection(&engine->entities);
-
-    SpawnPlayer(engine, (Vector2){0, 0});
-
     Image playerImage = LoadImage("assets/player_character.png");
-    ImageResize(&playerImage, engine->player->attributes.size.x, engine->player->attributes.size.y);
+    ImageResize(&playerImage, DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT);
     engine->entityTextures[ENTITY_TEXTURE_PLAYER] = LoadTextureFromImage(playerImage);
     UnloadImage(playerImage);
 
@@ -63,8 +59,6 @@ void InitEngine(Engine *engine)
     InitAudioEngine(&engine->audio_engine);
     InitCollisionSystem();
     InitGameplaySystem();
-
-    SpawnNextWave(engine);
 }
 
 void HandleInputEngine(Engine *engine)

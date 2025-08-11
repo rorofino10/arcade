@@ -11,6 +11,8 @@ typedef enum
 } GameState;
 
 struct Engine;
+void StartGame(struct Engine *engine);
+void RestartGame(struct Engine *engine);
 void LoseGame(struct Engine *engine);
 void WinGame(struct Engine *engine);
 void PauseGame(struct Engine *engine);

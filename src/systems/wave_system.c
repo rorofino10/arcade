@@ -47,6 +47,19 @@ void InitWaveSystem(WaveSystem *waveSystem)
         waveSystem->waves[i].remainingTime = waves[i].remainingTime;
     }
 }
+void RestartWaveSystem(WaveSystem *waveSystem)
+{
+    waveSystem->currentWave = 0;
+
+    for (int i = 0; i < WAVES_AMOUNT; i++)
+    {
+        waveSystem->waves[i].redEnemiesAmount = waves[i].redEnemiesAmount;
+        waveSystem->waves[i].blueEnemiesAmount = waves[i].blueEnemiesAmount;
+        waveSystem->waves[i].powerupShootingAmount = waves[i].powerupShootingAmount;
+        waveSystem->waves[i].powerupSpeedAmount = waves[i].powerupSpeedAmount;
+        waveSystem->waves[i].remainingTime = waves[i].remainingTime;
+    }
+}
 
 void CheckWaveEnded(Engine *engine)
 {

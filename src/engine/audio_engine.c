@@ -16,6 +16,11 @@ void InitAudioEngine(AudioEngine *audio_engine)
 
     PlayMusicStream(audio_engine->background_music);
 }
+void RestartAudioEngine(AudioEngine *audio_engine)
+{
+    StopMusicStream(audio_engine->background_music);
+    PlayMusicStream(audio_engine->background_music);
+}
 
 void PlaySoundAudioEngine(AudioEngine *audio_engine, SOUND_EFFECTS sound)
 {

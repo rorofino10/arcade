@@ -28,6 +28,7 @@ typedef struct audio_engine
 } AudioEngine;
 
 void InitAudioEngine(AudioEngine *audio_engine);
+void RestartAudioEngine(AudioEngine *audio_engine);
 
 void UpdateAudioEngine(AudioEngine *audio_engine);
 void PauseMusicAudioEngine(AudioEngine *audio_engine);
