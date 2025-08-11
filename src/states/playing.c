@@ -150,6 +150,7 @@ void UpdatePlaying(Engine *engine)
 
 void DrawPlaying(Engine *engine)
 {
+
     int screenWidth = GetScreenWidth();
     int screenHeight = GetScreenHeight();
     DrawRectangle(0, 0, screenWidth, screenHeight, RAYWHITE);
@@ -172,6 +173,14 @@ void DrawPlaying(Engine *engine)
     remainingTimeTextPosition = FromCenteredReturnTopLeftPositionV(remainingTimeTextPosition, remainingTimeTextSize);
     DrawText(remainingTimeText, remainingTimeTextPosition.x, remainingTimeTextPosition.y, remainingTimeFontSize, GRAY);
 
+    const char *remainingEnemiesText = TextFormat("Remaining Red Enemies %d", engine->waveSystem.waves[engine->waveSystem.currentWave - 1].redEnemiesAmount + engine->waveSystem.waves[engine->waveSystem.currentWave - 1].blueEnemiesAmount);
+    const int remainingEnemiesFontSize = waveTextFontSize / 4;
+    Vector2 remainingEnemiesTextSize = (Vector2){MeasureText(remainingEnemiesText, remainingEnemiesFontSize), remainingEnemiesFontSize};
+    Vector2 remainingEnemiesPosition = (Vector2){screenCenter.x, screenCenter.y + waveTextFontSize + 50};
+    remainingEnemiesPosition = FromCenteredReturnTopLeftPositionV(remainingEnemiesPosition, remainingTimeTextSize);
+
+    DrawText(remainingEnemiesText, remainingEnemiesPosition.x, remainingEnemiesPosition.y, remainingEnemiesFontSize, RED);
+
     for (CollectionNode *curr = engine->entities.head; curr != NULL; curr = curr->next)
     {
         Entity *currEntity = curr->entity;
@@ -180,6 +189,7 @@ void DrawPlaying(Engine *engine)
         switch (currEntity->type)
         {
         case ENTITY_PLAYER:
+            position = currEntity->position;
             Vector2 lookingDirection = currEntity->attributes.entitySpecificAttributes.player.lookingDirection;
             float rotation = atan2f(lookingDirection.y, lookingDirection.x) * RAD2DEG;
 
@@ -198,7 +208,19 @@ void DrawPlaying(Engine *engine)
             DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_BLUENEMY], position, WHITE);
             break;
         case ENTITY_BULLET:
-            DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_BULLET], position, WHITE);
+            position = currEntity->position;
+
+            Vector2 bulletDirection = Vector2Normalize(currEntity->velocity);
+            float bulletRotation = atan2f(bulletDirection.y, bulletDirection.x) * RAD2DEG;
+
+            Texture2D bulletTex = engine->entityTextures[ENTITY_TEXTURE_BULLET];
+
+            Rectangle bulletSrc = {0, 0, (float)bulletTex.width, (float)bulletTex.height};
+            Rectangle bulletDest = {position.x, position.y, bulletTex.width, bulletTex.height};
+            Vector2 bulletOrigin = {(float)bulletTex.width / 2, (float)bulletTex.height / 2};
+
+            DrawTexturePro(bulletTex, bulletSrc, bulletDest, bulletOrigin, bulletRotation, WHITE);
+            // DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_BULLET], position, WHITE);
             break;
         case ENTITY_EXPLOSION:
             DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_EXPLOSION], position, WHITE);

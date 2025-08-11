@@ -3,9 +3,10 @@
 #include "engine/engine.h"
 #include "states/state.h"
 
+#include "raymath.h"
+
 #include <stdlib.h>
 #include <stdio.h>
-#include "time.h"
 
 GameWave waves[WAVES_AMOUNT] = {
     {
@@ -33,6 +34,17 @@ GameWave waves[WAVES_AMOUNT] = {
         .remainingTime = 20.0f,
     },
 };
+
+Vector2 RandomSpawnPosition(Vector2 playerPos)
+{
+    Vector2 pos;
+    do
+    {
+        pos.x = GetRandomValue(0, GetScreenWidth());
+        pos.y = GetRandomValue(0, GetScreenHeight());
+    } while (Vector2Distance(playerPos, pos) < PLAYER_SAFETY_RADIUS);
+    return pos;
+}
 
 void InitWaveSystem(WaveSystem *waveSystem)
 {
@@ -113,34 +125,27 @@ void SpawnNextWave(Engine *engine)
     engine->waveSystem.currentWave++;
     GameWave *wave = &engine->waveSystem.waves[engine->waveSystem.currentWave - 1];
 
-    srand(time(NULL));
-
     for (int i = 0; i < wave->redEnemiesAmount; i++)
     {
-        int randX = rand() % GetScreenWidth();
-        int randY = rand() % GetScreenHeight();
-        Vector2 position = (Vector2){randX, randY};
+        Vector2 position = RandomSpawnPosition(engine->player->position);
         SpawnWaveEntity(engine, position, ENTITY_REDENEMY, wave);
     }
     for (int i = 0; i < wave->blueEnemiesAmount; i++)
     {
-        int randX = rand() % GetScreenWidth();
-        int randY = rand() % GetScreenHeight();
-        Vector2 position = (Vector2){randX, randY};
+        Vector2 position = RandomSpawnPosition(engine->player->position);
+
         SpawnWaveEntity(engine, position, ENTITY_BLUEENEMY, wave);
     }
     for (int i = 0; i < wave->powerupShootingAmount; i++)
     {
-        int randX = rand() % GetScreenWidth();
-        int randY = rand() % GetScreenHeight();
-        Vector2 position = (Vector2){randX, randY};
+        Vector2 position = RandomSpawnPosition(engine->player->position);
+
         SpawnWaveEntity(engine, position, ENTITY_POWERUP_SHOOTING, wave);
     }
     for (int i = 0; i < wave->powerupSpeedAmount; i++)
     {
-        int randX = rand() % GetScreenWidth();
-        int randY = rand() % GetScreenHeight();
-        Vector2 position = (Vector2){randX, randY};
+        Vector2 position = RandomSpawnPosition(engine->player->position);
+
         SpawnWaveEntity(engine, position, ENTITY_POWERUP_SPEED, wave);
     }
 }

@@ -2,6 +2,8 @@
 #define WAVE_SYSTEM_H
 
 #define WAVES_AMOUNT 3
+#define PLAYER_SAFETY_RADIUS 100
+
 struct Engine;
 struct Entity;
 
