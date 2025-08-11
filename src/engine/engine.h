@@ -29,7 +29,7 @@ typedef struct Engine
     Texture2D entityTextures[ENTITY_TEXTURE_COUNT];
     WaveSystem waveSystem;
     GameState game_state;
-
+    int gamepad;
 } Engine;
 
 void InitEngine(Engine *engine);

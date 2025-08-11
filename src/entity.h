@@ -6,7 +6,7 @@
 #define DEFAULT_PLAYER_SPEED 100.0f
 #define DEFAULT_PLAYER_WIDTH 50
 #define DEFAULT_PLAYER_HEIGHT 50
-#define DEFAULT_PLAYER_SHOOTING_COOLDOWN 2.0f
+#define DEFAULT_PLAYER_SHOOTING_COOLDOWN 0.8f
 
 #define DEFAULT_ENEMY_SPEED 25.0f
 #define DEFAULT_ENEMY_WIDTH 50
@@ -25,7 +25,7 @@
 
 #define DEFAULT_POWERUP_SPEED_LIFETIME 2.0f
 #define DEFAULT_POWERUP_SHOOTING_LIFETIME 2.0f
-#define DEFAULT_POWERUP_SHOOTING_COOLDOWN 0.2f
+#define DEFAULT_POWERUP_SHOOTING_COOLDOWN 0.1f
 
 typedef enum
 {
@@ -60,6 +60,8 @@ typedef struct
     float powerupShootingLifetime;
     float shootingRemainingCooldown;
     float shootingCooldown;
+
+    Vector2 lookingDirection;
 } PlayerAttributes;
 
 typedef struct

@@ -1,39 +1,85 @@
 #include "playing.h"
 #include "raymath.h"
+
 #include "shared/utils.h"
+#include "shared/gamepad.h"
+
 #include "engine/collision_system.h"
 #include "systems/gameplay.h"
 
-void HandleInputPlaying(Engine *engine)
+void HandleKeyboardInputPlaying(Engine *engine)
 {
     Vector2 velocity = {0};
 
-    if (IsKeyDown(KEY_RIGHT))
+    if (IsKeyDown(KEY_D))
         velocity.x += 1;
-    if (IsKeyDown(KEY_LEFT))
+    if (IsKeyDown(KEY_A))
         velocity.x -= 1;
-    if (IsKeyDown(KEY_DOWN))
+    if (IsKeyDown(KEY_S))
         velocity.y += 1;
-    if (IsKeyDown(KEY_UP))
+    if (IsKeyDown(KEY_W))
         velocity.y -= 1;
 
     float speed = engine->player->attributes.speed;
     engine->player->velocity = Vector2Scale(velocity, speed);
 
-    if (engine->player->attributes.entitySpecificAttributes.player.shootingCooldown > 0.0f)
-    {
-        if (IsKeyDown(KEY_D))
-            PlayerShootBullet(engine, (Vector2){1, 0});
-        if (IsKeyDown(KEY_W))
-            PlayerShootBullet(engine, (Vector2){0, -1});
-        if (IsKeyDown(KEY_A))
-            PlayerShootBullet(engine, (Vector2){-1, 0});
-        if (IsKeyDown(KEY_S))
-            PlayerShootBullet(engine, (Vector2){0, 1});
-    }
+    Vector2 mousePosition = GetMousePosition();
+    Vector2 lookingDirection = Vector2Normalize(Vector2Subtract(mousePosition, engine->player->position));
+    engine->player->attributes.entitySpecificAttributes.player.lookingDirection = lookingDirection;
+
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+        PlayerShootBullet(engine, lookingDirection);
 
     if (IsKeyPressed(KEY_P))
         PauseGame(engine);
+}
+
+void HandleGamepadInputPlaying(Engine *engine)
+{
+    float leftStickX = GetGamepadAxisMovement(engine->gamepad, GAMEPAD_AXIS_LEFT_X);
+    float leftStickY = GetGamepadAxisMovement(engine->gamepad, GAMEPAD_AXIS_LEFT_Y);
+    float rightStickX = GetGamepadAxisMovement(engine->gamepad, GAMEPAD_AXIS_RIGHT_X);
+    float rightStickY = GetGamepadAxisMovement(engine->gamepad, GAMEPAD_AXIS_RIGHT_Y);
+    float leftTrigger = GetGamepadAxisMovement(engine->gamepad, GAMEPAD_AXIS_LEFT_TRIGGER);
+    float rightTrigger = GetGamepadAxisMovement(engine->gamepad, GAMEPAD_AXIS_RIGHT_TRIGGER);
+
+    if (leftStickX > -leftStickDeadzoneX && leftStickX < leftStickDeadzoneX)
+        leftStickX = 0.0f;
+    if (leftStickY > -leftStickDeadzoneY && leftStickY < leftStickDeadzoneY)
+        leftStickY = 0.0f;
+    if (rightStickX > -rightStickDeadzoneX && rightStickX < rightStickDeadzoneX)
+        rightStickX = 0.0f;
+    if (rightStickY > -rightStickDeadzoneY && rightStickY < rightStickDeadzoneY)
+        rightStickY = 0.0f;
+    if (leftTrigger < leftTriggerDeadzone)
+        leftTrigger = -1.0f;
+    if (rightTrigger < rightTriggerDeadzone)
+        rightTrigger = -1.0f;
+
+    Vector2 direction = (Vector2){.x = leftStickX, .y = leftStickY};
+    float speed = engine->player->attributes.speed;
+    engine->player->velocity = Vector2Scale(direction, speed);
+
+    Vector2 lookingDirection = Vector2Normalize((Vector2){.x = rightStickX, .y = rightStickY});
+    engine->player->attributes.entitySpecificAttributes.player.lookingDirection = lookingDirection;
+
+    if (IsGamepadButtonDown(engine->gamepad, GAMEPAD_BUTTON_RIGHT_TRIGGER_2) && (lookingDirection.x != 0.0f || lookingDirection.y != 0.0f))
+        PlayerShootBullet(engine, lookingDirection);
+
+    if (IsGamepadButtonPressed(engine->gamepad, GAMEPAD_BUTTON_MIDDLE_RIGHT))
+    {
+        PauseGame(engine);
+    }
+}
+
+void HandleInputPlaying(Engine *engine)
+{
+    if (IsGamepadAvailable(engine->gamepad))
+    {
+        HandleGamepadInputPlaying(engine);
+    }
+    else
+        HandleKeyboardInputPlaying(engine);
 }
 
 bool isOffScreen(Entity *entity)
@@ -134,7 +180,16 @@ void DrawPlaying(Engine *engine)
         switch (currEntity->type)
         {
         case ENTITY_PLAYER:
-            DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_PLAYER], position, WHITE);
+            Vector2 lookingDirection = currEntity->attributes.entitySpecificAttributes.player.lookingDirection;
+            float rotation = atan2f(lookingDirection.y, lookingDirection.x) * RAD2DEG;
+
+            Texture2D playerTex = engine->entityTextures[ENTITY_TEXTURE_PLAYER];
+
+            Rectangle src = {0, 0, (float)playerTex.width, (float)playerTex.height};
+            Rectangle dest = {position.x, position.y, playerTex.width, playerTex.height};
+            Vector2 origin = {(float)playerTex.width / 2, (float)playerTex.height / 2};
+
+            DrawTexturePro(playerTex, src, dest, origin, rotation, WHITE);
             break;
         case ENTITY_REDENEMY:
             DrawTextureV(engine->entityTextures[ENTITY_TEXTURE_REDENEMY], position, WHITE);

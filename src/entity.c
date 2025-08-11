@@ -15,6 +15,7 @@ Entity *DefaultPlayer()
     player->attributes.entitySpecificAttributes.player.powerupShootingLifetime = 0.0f;
     player->attributes.entitySpecificAttributes.player.shootingCooldown = DEFAULT_PLAYER_SHOOTING_COOLDOWN;
     player->attributes.entitySpecificAttributes.player.shootingRemainingCooldown = 0.0f;
+    player->attributes.entitySpecificAttributes.player.lookingDirection = (Vector2){1, 0};
     player->alive = true;
 }
 Entity *DefaultRedEnemy()

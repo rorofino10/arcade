@@ -19,8 +19,9 @@ const int ENEMIES_AMOUNT = 0;
 void InitEngine(Engine *engine)
 {
     engine->game_state = STATE_TITLE_SCREEN;
+    engine->gamepad = 0;
 
-    Image playerImage = LoadImage("assets/player_character.png");
+    Image playerImage = LoadImage("assets/survivor-idle_shotgun_0.png");
     ImageResize(&playerImage, DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT);
     engine->entityTextures[ENTITY_TEXTURE_PLAYER] = LoadTextureFromImage(playerImage);
     UnloadImage(playerImage);
