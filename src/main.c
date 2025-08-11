@@ -12,7 +12,7 @@ int main(int argc, char **argv)
     const int WINDOW_HEIGHT = 600;
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Game");
     SetTargetFPS(60);
-    DisableCursor();
+    // DisableCursor();
 
     Engine engine;
     InitEngine(&engine);

@@ -2,7 +2,9 @@
 
 #include "raylib.h"
 #include "raymath.h"
+
 #include "shared/utils.h"
+#include "shared/buttons.h"
 
 #include "state.h"
 
@@ -16,15 +18,41 @@ const Color lostScreenTitleSubTitleColor = GRAY;
 
 const Color lostScreenBackgroundColor = RED;
 
+const char *restartButtonText = "RESTART";
+const int restartButtonFontSize = 20;
+Rectangle restartButtonRec = (Rectangle){0, 0, 0, 0};
+ButtonState restartButtonState = NONE;
+
 void HandleInputLostScreen(Engine *engine)
 {
     if (IsKeyPressed(KEY_R))
     {
         RestartGame(engine);
     }
+
+    Vector2 mousePos = GetMousePosition();
+    if (CheckCollisionPointRec(mousePos, restartButtonRec))
+    {
+        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+        {
+            restartButtonState = CLICKED;
+        }
+        else if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+        {
+            restartButtonState = RELEASED;
+        }
+        else
+            restartButtonState = HOVERED;
+    }
+    else
+        restartButtonState = NONE;
 }
 void UpdateLostScreen(Engine *engine)
 {
+    if (restartButtonState == RELEASED)
+    {
+        RestartGame(engine);
+    }
 }
 void DrawLostScreen(Engine *engine)
 {
@@ -46,4 +74,27 @@ void DrawLostScreen(Engine *engine)
     subTitlePosition = FromCenteredReturnTopLeftPositionV(subTitlePosition, subTitleSize);
 
     DrawText(lostScreenTitleSubTitle, subTitlePosition.x, subTitlePosition.y, lostScreenTitleSubTitleFontSize, lostScreenTitleSubTitleColor);
+
+    Vector2 restartButtonPosition = (Vector2){screenCenter.x, screenCenter.y + 100};
+    Vector2 restartButtonSize = (Vector2){MeasureText(restartButtonText, restartButtonFontSize), restartButtonFontSize};
+    restartButtonPosition = FromCenteredReturnTopLeftPositionV(restartButtonPosition, restartButtonSize);
+    restartButtonRec = (Rectangle){restartButtonPosition.x, restartButtonPosition.y, restartButtonSize.x, restartButtonSize.y};
+
+    switch (restartButtonState)
+    {
+
+    case HOVERED:
+        DrawRectangle(restartButtonRec.x, restartButtonRec.y, restartButtonRec.width, restartButtonRec.height, GRAY);
+        DrawText(restartButtonText, restartButtonRec.x, restartButtonRec.y, restartButtonFontSize, WHITE);
+        break;
+    case CLICKED:
+        DrawRectangle(restartButtonRec.x, restartButtonRec.y, restartButtonRec.width, restartButtonRec.height, BLACK);
+        DrawText(restartButtonText, restartButtonRec.x, restartButtonRec.y, restartButtonFontSize, WHITE);
+        break;
+    default:
+        DrawRectangle(restartButtonRec.x, restartButtonRec.y, restartButtonRec.width, restartButtonRec.height, GRAY);
+        DrawText(restartButtonText, restartButtonRec.x, restartButtonRec.y, restartButtonFontSize, ORANGE);
+
+        break;
+    }
 }
